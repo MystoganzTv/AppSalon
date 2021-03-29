@@ -8,12 +8,12 @@ function iniciarApp() {
 	mostrarServicios();
 
 	// Resalta el Div actual segun el tab al que se prsiona
-	//mostrarSeccion();
+	mostrarSeccion();
 
 	// Oculta o muiestra una seccion segun el tab al que se presiona
 	cambiarSeccion();
 }
-/*
+
 function mostrarSeccion() {
 	const seccionActual = document.querySelector(`#paso-${pagina}`);
 	seccionActual.classList.add('mostrar-seccion');
@@ -22,7 +22,7 @@ function mostrarSeccion() {
     const tab = document.querySelector(`[data-paso="${pagina}"]`);
     tab.classList.add('actual');
 
-}*/
+}
 
 
 function cambiarSeccion() {
@@ -35,28 +35,23 @@ function cambiarSeccion() {
 			e.preventDefault();
            pagina = parseInt(e.target.dataset.paso);
            
-            // Agrega mostrar-seccion donde dimos click
-
-			const seccion = document.querySelector(`#paso-${pagina}`);
-			seccion.classList.add('mostrar-seccion');
-
-           
- /*   
-            // Agrega mostrar-seccion donde dimos click
-			const seccion = document.querySelector(`#paso-${pagina}`);
-			seccion.classList.add('mostrar-seccion');
-        
+                  
 			// Eliminar mostrar-seccion de la seccion anterior
-			document.querySelector('.mostrar-seccion').classList.remove('.mostrar-seccion');
+			document.querySelector('.mostrar-seccion').classList.remove('mostrar-seccion');
+            
+            // Agrega mostrar-seccion donde dimos click
+			const seccion = document.querySelector(`#paso-${pagina}`);
+			seccion.classList.add('mostrar-seccion');
 
+ 
             // Eliminar la clase de actual en el tab anterior
             document.querySelector('.tabs .actual').classList.remove('actual');
 
             // Agregar la clase de actual en el nuevo tab
             const tabActual = document.querySelector(`[data-paso="${pagina}"]`);
-            tab.classList.add('actual');
+            tabActual.classList.add('actual');
 
-        */
+        
 		});
 	});
 }
