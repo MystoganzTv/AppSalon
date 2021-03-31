@@ -12,46 +12,46 @@ function iniciarApp() {
 
 	// Oculta o muiestra una seccion segun el tab al que se presiona
 	cambiarSeccion();
+	// Paginacion siguiente y anterior
+	paginaSiguiente();
+
+	paginaAnterior();
 }
 
 function mostrarSeccion() {
 	const seccionActual = document.querySelector(`#paso-${pagina}`);
 	seccionActual.classList.add('mostrar-seccion');
 
-    // Resalta el tab Actual
-    const tab = document.querySelector(`[data-paso="${pagina}"]`);
-    tab.classList.add('actual');
-
+	// Resalta el tab Actual
+	const tab = document.querySelector(`[data-paso="${pagina}"]`);
+	tab.classList.add('actual');
 }
-
 
 function cambiarSeccion() {
 	const enlaces = document.querySelectorAll('.tabs button');
 
-    /* Un EventListener tiene que ser agregado sobre un elemento, no puede ser agregado sobre una coleccion de elementos
+	/* Un EventListener tiene que ser agregado sobre un elemento, no puede ser agregado sobre una coleccion de elementos
     por eso usamos el forEach*/
-	enlaces.forEach(enlace => {
-		enlace.addEventListener('click', e => {
+	enlaces.forEach((enlace) => {
+		enlace.addEventListener('click', (e) => {
 			e.preventDefault();
-           pagina = parseInt(e.target.dataset.paso);
-           
-                  
+			pagina = parseInt(e.target.dataset.paso);
+
 			// Eliminar mostrar-seccion de la seccion anterior
-			document.querySelector('.mostrar-seccion').classList.remove('mostrar-seccion');
-            
-            // Agrega mostrar-seccion donde dimos click
+			document
+				.querySelector('.mostrar-seccion')
+				.classList.remove('mostrar-seccion');
+
+			// Agrega mostrar-seccion donde dimos click
 			const seccion = document.querySelector(`#paso-${pagina}`);
 			seccion.classList.add('mostrar-seccion');
 
- 
-            // Eliminar la clase de actual en el tab anterior
-            document.querySelector('.tabs .actual').classList.remove('actual');
+			// Eliminar la clase de actual en el tab anterior
+			document.querySelector('.tabs .actual').classList.remove('actual');
 
-            // Agregar la clase de actual en el nuevo tab
-            const tabActual = document.querySelector(`[data-paso="${pagina}"]`);
-            tabActual.classList.add('actual');
-
-        
+			// Agregar la clase de actual en el nuevo tab
+			const tabActual = document.querySelector(`[data-paso="${pagina}"]`);
+			tabActual.classList.add('actual');
 		});
 	});
 }
@@ -115,4 +115,17 @@ function seleccionarServicio(e) {
 	} else {
 		elemento.classList.add('seleccionado');
 	}
+}
+
+function paginaSiguiente() {
+	const paginaSiguiente = document.querySelector('#siguiente');
+	paginaSiguiente.addEventListener('click', () => {
+		pagina++;
+	});
+}
+function paginaAnterior() {
+	const paginaAnterior = document.querySelector('#anterior');
+	paginaAnterior.addEventListener('click', () => {
+		pagina--;
+	});
 }
