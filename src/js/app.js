@@ -1,5 +1,12 @@
 let pagina = 1;
 
+const cita = {
+	nombre: '',
+	fecha: '',
+	hora: '',
+	servicios: [],
+};
+
 document.addEventListener('DOMContentLoaded', function () {
 	iniciarApp();
 });
@@ -20,6 +27,9 @@ function iniciarApp() {
 	// Comprueba la pagina actual para ocultar o mostrar la paginacion
 
 	botonesPaginador();
+
+	// Muestra el resumen de la cita (o mensaje de error en caso de no pasar la validacion)
+	mostrarResumen();
 }
 
 function mostrarSeccion() {
@@ -154,3 +164,5 @@ function botonesPaginador() {
 
 	mostrarSeccion(); // Cambia la seccion que se muestra por la de la pagina
 }
+
+function mostrarResumen() {}
