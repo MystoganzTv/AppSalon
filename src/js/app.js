@@ -33,6 +33,9 @@ function iniciarApp() {
 
 	// Almacena el nombre de la cita en el objeto
 	nombreCita();
+
+	// Almacena la fechja de la cita en el objeto
+	fechaCita();
 }
 
 function mostrarSeccion() {
@@ -221,7 +224,64 @@ function mostrarResumen() {
 function nombreCita() {
 	const nombreInput = document.querySelector('#nombre');
 
-	nombreInput.addEventListener('input', () => {
-		console.log('escribiendo');
+	nombreInput.addEventListener('input', (e) => {
+		//	console.log(e.target.value);
+		const nombreTexto = e.target.value.trim();
+
+		// Validacion de que nombreTexto no puede estar vacio
+
+		if (nombreTexto === '' || nombreTexto.length < 3) {
+			mostrarAlerta('Nombre no valido', 'error');
+		} else {
+			const alerta = document.querySelector('.alerta');
+			if (alerta) {
+				alerta.remove();
+			}
+			cita.nombre = nombreTexto;
+
+			// console.log(cita);
+		}
+	});
+}
+
+function mostrarAlerta(mensaje, tipo) {
+	// Si hay una alerta prevui, entonces no agregar otra
+
+	const alertaPrevia = document.querySelector('.alerta');
+
+	if (alertaPrevia) {
+		return;
+	}
+
+	const alerta = document.createElement('DIV');
+	alerta.textContent = mensaje;
+	alerta.classList.add('alerta');
+
+	if (tipo === 'error') {
+		alerta.classList.add('error');
+	}
+	console.log(alerta);
+
+	// Insertar en el HTML
+	const formulario = document.querySelector('.formulario');
+	formulario.appendChild(alerta);
+
+	// Eliminar la alerta despues de 3 segundos
+	setTimeout(() => {
+		alerta.remove();
+	}, 3000);
+}
+
+function fechaCita() {
+	const fechaInput = document.querySelector('#fecha');
+	fechaInput.addEventListener('input', (e) => {
+		// console.log(e.target.value);
+		const dia = new Date(e.target.value).getUTCDay();
+
+		if ([0].includes(dia)) {
+			console.log('Seleccionaste domingo lo cual no es valido');
+		} else {
+			console.log('Dia valido');
+		}
 	});
 }
