@@ -36,6 +36,9 @@ function iniciarApp() {
 
 	// Almacena la fechja de la cita en el objeto
 	fechaCita();
+
+	// Desabilita dias pasados
+	deshabilitarFechaAnterior();
 }
 
 function mostrarSeccion() {
@@ -192,6 +195,8 @@ function botonesPaginador() {
 	} else if (pagina === 3) {
 		paginaSiguiente.classList.add('ocultar');
 		paginaAnterior.classList.remove('ocultar');
+
+		mostrarResumen(); //Estamos en la pagina 3, carga el resumen de la cita.
 	} else {
 		paginaAnterior.classList.remove('ocultar');
 		paginaSiguiente.classList.remove('ocultar');
@@ -206,18 +211,39 @@ function mostrarResumen() {
 
 	// Seleccionar resumen
 	const resumenDiv = document.querySelector('.contenido-resumen');
-	// Validacion de objeto
 
+	// Limpia el HTML previo  -- el de resumen
+	while (resumenDiv.firstChild) {
+		resumenDiv.removeChild(resumenDiv.firstChild);
+	}
+
+	// Validacion de objeto
 	if (Object.values(cita).includes('')) {
 		const noServicios = document.createElement('P');
 		noServicios.textContent =
-			'Faltan datos de Servicios, hora, fecha o nombre ';
+			'Faltan datos de Servicios, hora, fecha o nombre';
 
 		noServicios.classList.add('invalidar-cita');
 
 		// Agregar resumenDiv
 		resumenDiv.appendChild(noServicios);
+
+		return;
 	}
+
+	// Mostrar el resumen
+	const nombreCita = document.createElement('P');
+	nombreCita.innerHTML = `<span>Nombre:</span> ${nombre}`;
+
+	const fechaCita = document.createElement('P');
+	fechaCita.innerHTML = `<span>Fecha:</span> ${fecha}`;
+
+	const horaCita = document.createElement('P');
+	horaCita.innerHTML = `<span>Hora:</span> ${hora}`;
+
+	resumenDiv.appendChild(nombreCita);
+	resumenDiv.appendChild(fechaCita);
+	resumenDiv.appendChild(horaCita);
 	//console.log(Object.values(cita));
 }
 
@@ -278,10 +304,28 @@ function fechaCita() {
 		// console.log(e.target.value);
 		const dia = new Date(e.target.value).getUTCDay();
 
-		if ([0].includes(dia)) {
-			console.log('Seleccionaste domingo lo cual no es valido');
+		if ([0, 6].includes(dia)) {
+			e.preventDefault; //Evita que se agrege la fecha cuando se escoge un fin de semana, lo cual no se trabaja
+			fechaInput.value = '';
+			mostrarAlerta('Fines de semana no trabajamos', 'error');
+			//	console.log('Seleccionaste sabado o domingo lo cual no es valido');
 		} else {
-			console.log('Dia valido');
+			cita.fecha = fechaInput.value;
+			//console.log('Dia valido');
 		}
 	});
+}
+
+function deshabilitarFechaAnterior() {
+	const inputFecha = document.querySelector('#fecha');
+
+	const fechaAhora = new Date(); // te da la fecha actual
+	const year = fechaAhora.getFullYear();
+	const mes = fechaAhora.getMonth() + 1;
+	const dia = fechaAhora.getDate() + 1;
+	const fechaDesabilitar = `${year}-${mes}-${dia}`;
+
+	inputFecha.min = fechaDesabilitar;
+
+	// Formato deseado: AAAA-MM-DD
 }
