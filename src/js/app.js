@@ -128,11 +128,40 @@ function seleccionarServicio(e) {
 	// El siguiente if selecciona o des-selecciona el lemento de acuerdo a los click
 	if (elemento.classList.contains('seleccionado')) {
 		elemento.classList.remove('seleccionado');
+
+		const id = parseInt(elemento.dataset.idServicio);
+
+		eliminarServicio(id);
 	} else {
 		elemento.classList.add('seleccionado');
+
+		//	console.log(elemento.dataset.idServicio);
+
+		const servicioObj = {
+			id: parseInt(elemento.dataset.idServicio),
+			nombre: elemento.firstElementChild.textContent,
+			precio: elemento.firstElementChild.nextElementSibling.textContent,
+		};
+
+		// 	console.log(servicioObj);
+		agregarServicio(servicioObj);
 	}
 }
 
+function eliminarServicio(id) {
+	const { servicios } = cita;
+	cita.servicios = servicios.filter((servicio) => servicio.id !== id);
+	console.log(cita);
+	//console.log('Eliminando....', id);
+}
+
+function agregarServicio(servicioObj) {
+	const { servicios } = cita; // Destructuring
+
+	cita.servicios = [...servicios, servicioObj];
+
+	//console.log(cita);
+}
 function paginaSiguiente() {
 	const paginaSiguiente = document.querySelector('#siguiente');
 	paginaSiguiente.addEventListener('click', () => {
@@ -165,4 +194,23 @@ function botonesPaginador() {
 	mostrarSeccion(); // Cambia la seccion que se muestra por la de la pagina
 }
 
-function mostrarResumen() {}
+function mostrarResumen() {
+	// Destructuring
+	const { nombre, fecha, hora, servicios } = cita;
+
+	// Seleccionar resumen
+	const resumenDiv = document.querySelector('.contenido-resumen');
+	// Validacion de objeto
+
+	if (Object.values(cita).includes('')) {
+		const noServicios = document.createElement('P');
+		noServicios.textContent =
+			'Faltan datos de Servicios, hora, fecha o nombre ';
+
+		noServicios.classList.add('invalidar-cita');
+
+		// Agregar resumenDiv
+		resumenDiv.appendChild(noServicios);
+	}
+	//console.log(Object.values(cita));
+}
