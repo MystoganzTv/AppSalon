@@ -30,6 +30,9 @@ function iniciarApp() {
 
 	// Muestra el resumen de la cita (o mensaje de error en caso de no pasar la validacion)
 	mostrarResumen();
+
+	// Almacena el nombre de la cita en el objeto
+	nombreCita();
 }
 
 function mostrarSeccion() {
@@ -213,4 +216,12 @@ function mostrarResumen() {
 		resumenDiv.appendChild(noServicios);
 	}
 	//console.log(Object.values(cita));
+}
+
+function nombreCita() {
+	const nombreInput = document.querySelector('#nombre');
+
+	nombreInput.addEventListener('input', () => {
+		console.log('escribiendo');
+	});
 }
