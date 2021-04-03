@@ -39,6 +39,9 @@ function iniciarApp() {
 
 	// Desabilita dias pasados
 	deshabilitarFechaAnterior();
+
+	// Almacena la hora de la cita en el objeto
+	horaCita();
 }
 
 function mostrarSeccion() {
@@ -245,6 +248,23 @@ function mostrarResumen() {
 	resumenDiv.appendChild(fechaCita);
 	resumenDiv.appendChild(horaCita);
 	//console.log(Object.values(cita));
+
+	// Iterar sobre el arreglo de servicios
+	servicios.forEach((servicio) => {
+		const { nombre, precio } = servicio; // Destructuring
+		const contenedorServicio = document.createElement('DIV');
+		contenedorServicio.classList.add('contenedor-servicio');
+
+		const textoServicio = document.createElement('P');
+		textoServicio.textContent = nombre;
+
+		const precioServicio = document.createElement('P');
+		precioServicio.textContent = precio;
+
+		// Colocar texto y precio en el DIV
+		contenedorServicio.appendChild(textoServicio);
+		contenedorServicio.appendChild(precioServicio);
+	});
 }
 
 function nombreCita() {
@@ -317,15 +337,38 @@ function fechaCita() {
 }
 
 function deshabilitarFechaAnterior() {
-	const inputFecha = document.querySelector('#fecha');
+	//const inputFecha = document.querySelector('#fecha');
+	const inputFecha = document.getElementById('fecha');
 
-	const fechaAhora = new Date(); // te da la fecha actual
-	const year = fechaAhora.getFullYear();
-	const mes = fechaAhora.getMonth() + 1;
-	const dia = fechaAhora.getDate() + 1;
-	const fechaDesabilitar = `${year}-${mes}-${dia}`;
+	var today = new Date(); // te da la fecha actual
+	var dd = String(today.getDate()).padStart(2, '0');
+	var mm = String(today.getMonth() + 1).padStart(2, '0');
+	var yyyy = today.getFullYear();
 
-	inputFecha.min = fechaDesabilitar;
+	today = `${yyyy}-${mm}-${dd}`;
+
+	inputFecha.min = today;
+
+	console.log(inputFecha);
 
 	// Formato deseado: AAAA-MM-DD
+}
+
+function horaCita() {
+	const inputHora = document.querySelector('#hora');
+	inputHora.addEventListener('input', (e) => {
+		const horaCita = e.target.value;
+		const hora = horaCita.split(':');
+
+		if (hora[0] < 10 || hora[0] > 20) {
+			mostrarAlerta('Hora no valida', 'error');
+			setTimeout(() => {
+				inputHora.value = '';
+			}, 2000);
+		} else {
+			cita.hora = horaCita;
+
+			console.log(cita);
+		}
+	});
 }
