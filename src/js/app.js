@@ -233,6 +233,8 @@ function mostrarResumen() {
 
 		return;
 	}
+	const headingCita = document.createElement('H3');
+	headingCita.textContent = 'Resumen de Cita';
 
 	// Mostrar el resumen
 	const nombreCita = document.createElement('P');
@@ -244,10 +246,15 @@ function mostrarResumen() {
 	const horaCita = document.createElement('P');
 	horaCita.innerHTML = `<span>Hora:</span> ${hora}`;
 
-	resumenDiv.appendChild(nombreCita);
-	resumenDiv.appendChild(fechaCita);
-	resumenDiv.appendChild(horaCita);
-	//console.log(Object.values(cita));
+	const serviciosCita = document.createElement('DIV');
+	serviciosCita.classList.add('resumen-servicios');
+
+	const headingServicios = document.createElement('H3');
+	headingServicios.textContent = 'Resumen de Servicios';
+
+	serviciosCita.appendChild(headingServicios);
+
+	let cantidad = 0;
 
 	// Iterar sobre el arreglo de servicios
 	servicios.forEach((servicio) => {
@@ -260,11 +267,30 @@ function mostrarResumen() {
 
 		const precioServicio = document.createElement('P');
 		precioServicio.textContent = precio;
+		precioServicio.classList.add('precio');
+
+		const totalServicio = precio.split('$');
+		// console.log(parseInt(totalServicio[1].trim()));
+		cantidad += parseInt(totalServicio[1].trim());
 
 		// Colocar texto y precio en el DIV
 		contenedorServicio.appendChild(textoServicio);
 		contenedorServicio.appendChild(precioServicio);
+		serviciosCita.appendChild(contenedorServicio);
 	});
+
+	//console.log(cantidad);
+
+	resumenDiv.appendChild(headingCita);
+	resumenDiv.appendChild(nombreCita);
+	resumenDiv.appendChild(fechaCita);
+	resumenDiv.appendChild(horaCita);
+	resumenDiv.appendChild(serviciosCita);
+
+	const cantidadPagar = document.createElement('P');
+	cantidadPagar.classList.add('total');
+	cantidadPagar.innerHTML = `<span>Total a Pagar:</span>  $${cantidad}`;
+	resumenDiv.appendChild(cantidadPagar);
 }
 
 function nombreCita() {
